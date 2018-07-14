@@ -88,8 +88,7 @@
 
 		#console{
 			color: #fff;
-			text-align: center;
-			width: 200px;
+			width: 150px;
 			height: 200px;
     		margin: 0 auto;
 			overflow: auto;
@@ -171,11 +170,24 @@
 		}
 		var wsConnected = false;
 		function WebSocketTest() {
+			if(typeof $(".btn-connect").attr("disabled") !== 'undefined'){
+				myConsole("Plz wait..");
+				return;
+			}
+			if(wsConnected){
+				myConsole("Already connected..");
+				return;
+			}
 			if ("WebSocket" in window) {
-
+				$(".btn-connect").attr("disabled","disabled");
 				myConsole("Connecting..");
 				// Let us open a web socket
-				ws = new WebSocket("ws://192.168.4.1");
+				try {
+					
+					ws = new WebSocket("ws://192.168.4.1");
+				} catch (error) {
+					close();
+				}
 
 				ws.onopen = function () {
 					// Web Socket is connected, send data using send()
@@ -193,14 +205,19 @@
 				};
 
 				ws.onclose = function () {
+					close();
+				};
+
+				function close(){
 					// websocket is closed.
-					if(!wsConnected){
+					if (!wsConnected) {
 						myConsole("Connection failed.");
-					}else{
+					} else {
 						myConsole("Connection closed.");
 					}
+					$(".btn-connect").removeAttr("disabled");
 					wsConnected = false;
-				};
+				}
 			}
 
 			else {
@@ -241,7 +258,7 @@
 
 
 		function myConsole(str){
-			$("#console").append(str+ "<br>");
+			$("#console").append(`$ ${str}<br>`);
 			console.log(str);
 
 			//Scroll to bottom of the element
