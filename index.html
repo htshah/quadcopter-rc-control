@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+	shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="ui/css/ProximaNova.css" />
+	<title>RC Drone</title>
+
+	<style>
+		/* @import 'ui/css/evothings-app.css'; */
+
+		* {
+			font-family: 'Proxima Nova Regular';
+		}
+
+		body {
+			margin: 0;
+			background: rgb(34, 26, 101);
+			background: -moz-linear-gradient(left, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
+			background: -webkit-linear-gradient(left, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
+			background: linear-gradient(to right, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
+			filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#221a65', endColorstr='#9e5a90', GradientType=1);
+		}
+
+		.container {
+			display: block;
+			width: 100%;
+		}
+
+		.joystick * {
+			opacity: 1 !important;
+		}
+
+		.joystick .back {
+			background: #fff !important;
+		}
+		.joystick .front {
+			background: #34375c !important;
+		}
+
+		.joystick .back::before {
+			content      : ' ';
+			display      : inline-block;
+			background   : #fff;
+			border-radius: 50%;
+			width        : 147%;
+			height       : 147%;
+			top          : -24%;
+			left         : -24%;
+			position     : absolute;
+			z-index      : -1;
+		}
+
+		.row {
+			display: block;
+			position: relative;
+			width: 100%;
+			margin-bottom: 20px;
+			padding: 20px 0px;
+		}
+
+		.center-align {
+			text-align: center;
+		}
+
+		.btn {
+			display: inline-block;
+			background: #fff;
+			border-radius: 18px;
+			color: #062663;
+			text-decoration: none;
+			font-size: 20px;
+			padding: 6px 21px;
+			font-weight: 600;
+			margin: 0 5px;
+		}
+
+		.btn-floating {
+			padding: 10px;
+			width: 24px;
+			height: 24px;
+			border-radius: 50%;
+
+		}
+
+		#console{
+			color: #fff;
+			text-align: center;
+			max-height: 200px;
+			overflow: auto;
+		}
+	</style>
+
+	<script>
+		// Redirect console.log to Evothings Workbench.
+		if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	</script>
+
+</head>
+
+<body>
+	<div class="row center-align">
+		<a class="btn btn-floating btn-back" href="javascript:void(0)" onclick="history.back();">
+			<img src="ui/images/icons/back.svg" alt="Back">
+		</a>
+		<a class="btn btn-floating btn-connect" href="javascript:void(0)" onclick="WebSocketTest();">
+			<img src="ui/images/icons/play.svg" alt="Back">
+		</a>
+	</div>
+	<div class="container">
+		<div class="joystick" id="left-stick"></div>
+		<div class="joystick" id="right-stick"></div>
+	</div>
+
+	<div id="console"></div>
+
+	<script src="libs/jquery/jquery.js"></script>
+
+	<!-- Joystick library -->
+	<script src="libs/nipplejs/nipplejs.min.js"></script>
+	<script type="text/javascript">
+		var controller = { throttle: -125, yaw: 0, roll: 0, pitch: 0 };
+		var leftOptions = {
+			zone: document.getElementById('left-stick'),
+			mode: "static",
+			position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, left: '20%' },
+			size: getNippleSize(),
+			resetY: false,
+			shape: 'square'
+		};
+		var leftStick = nipplejs.create(leftOptions);
+
+		var rightOptions = {
+			zone: document.getElementById('right-stick'),
+			mode: "static",
+			position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, right: '20%' },
+			size: getNippleSize(),
+			shape: 'square'
+		};
+		var rightStick = nipplejs.create(rightOptions);
+
+		leftStick.on("move", function (event, data) {
+			controller.throttle = -parseInt(data.instance.frontPosition.y);
+			controller.yaw = parseInt(data.instance.frontPosition.x);
+			sendData();
+		});
+		leftStick.on("end", function (event, data) {
+			controller.yaw = 0;
+			sendData();
+		});
+		rightStick.on("move", function (event, data) {
+			controller.pitch = -parseInt(data.instance.frontPosition.y);
+			controller.roll = parseInt(data.instance.frontPosition.x);
+			sendData();
+		});
+		rightStick.on("end", function (event, data) {
+			controller.pitch = 0;
+			controller.roll = 0;
+			sendData();
+		});
+
+		var ws;
+
+		function getNippleSize() {
+			return $(window).innerWidth() * 0.2;
+		}
+		var wsConnected = false;
+		function WebSocketTest() {
+			if ("WebSocket" in window) {
+
+				myConsole("Connecting..");
+				// Let us open a web socket
+				ws = new WebSocket("ws://192.168.4.1");
+
+				ws.onopen = function () {
+					// Web Socket is connected, send data using send()
+					myConsole("Connected!!");
+					wsConnected = true;
+					//send data every 0.5s
+					setInterval(function () {
+						sendData();
+					}, 500);
+				};
+
+				ws.onmessage = function (evt) {
+					var received_msg = evt.data;
+					myConsole("Message received : " + received_msg);
+				};
+
+				ws.onclose = function () {
+					// websocket is closed.
+					if(!wsConnected){
+						myConsole("Connection failed.");
+					}else{
+						myConsole("Connection closed.");
+					}
+					wsConnected = false;
+				};
+			}
+
+			else {
+				// The browser doesn't support WebSocket
+				myConsole("WebSocket NOT supported by your Browser!");
+			}
+		}
+
+		function getSign(val) {
+			return val < 0 ? "-" : "+";
+		}
+
+		function formatNum(num) {
+			var sign = getSign(num);
+			var prefix = Math.abs(num) < 15 ? "0" : "";
+			num = Math.abs(num).toString(16);
+
+			return sign + prefix + num;
+		}
+
+		var dataIsBeingSent = false;
+		function sendData() {
+			if (dataIsBeingSent) {
+				return;
+			}
+			dataIsBeingSent = true;
+			var throttle = controller.throttle;
+			var yaw = controller.yaw;
+			var pitch = controller.pitch;
+			var roll = controller.roll;
+
+			var string = `${formatNum(throttle)} ${formatNum(yaw)} ${formatNum(pitch)} ${formatNum(roll)}`;
+			// myConsole(string);
+			if (typeof ws !== "undefined" && wsConnected)
+				ws.send(string);
+			dataIsBeingSent = false;
+		}
+
+
+		function myConsole(str){
+			$("#console").append(str+ "<br>");
+			console.log(str);
+		}
+	</script>
+
+</body>
+
+</html>
