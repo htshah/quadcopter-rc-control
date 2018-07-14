@@ -89,7 +89,9 @@
 		#console{
 			color: #fff;
 			text-align: center;
-			max-height: 200px;
+			width: 200px;
+			height: 200px;
+    		margin: 0 auto;
 			overflow: auto;
 		}
 	</style>
@@ -241,6 +243,10 @@
 		function myConsole(str){
 			$("#console").append(str+ "<br>");
 			console.log(str);
+
+			//Scroll to bottom of the element
+			var elem = document.getElementById('console');
+			elem.scrollTop = elem.scrollHeight;
 		}
 	</script>
 
