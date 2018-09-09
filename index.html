@@ -93,6 +93,10 @@
     		margin: 0 auto;
 			overflow: auto;
 		}
+
+		#battery-value{
+			color:white;
+		}
 	</style>
 
 	<script>
@@ -115,6 +119,9 @@
 		<div class="joystick" id="left-stick"></div>
 		<div class="joystick" id="right-stick"></div>
 	</div>
+	<div class="container">
+		<h4 id="battery-value"></h4>
+	</div>
 
 	<div id="console"></div>
 
@@ -123,7 +130,7 @@
 	<!-- Joystick library -->
 	<script src="libs/nipplejs/nipplejs.min.js"></script>
 	<script type="text/javascript">
-		var controller = { throttle: -125, yaw: 0, roll: 0, pitch: 0 };
+		var controller = { throttle: -parseInt(getNippleSize()/2), yaw: 0, roll: 0, pitch: 0 };
 		var leftOptions = {
 			zone: document.getElementById('left-stick'),
 			mode: "static",
@@ -146,30 +153,35 @@
 		leftStick.on("move", function (event, data) {
 			controller.throttle = -parseInt(data.instance.frontPosition.y);
 			controller.yaw = parseInt(data.instance.frontPosition.x);
-			sendData();
+			// sendData();
 		});
 		leftStick.on("end", function (event, data) {
 			controller.yaw = 0;
-			sendData();
+			// sendData();
 		});
 		rightStick.on("move", function (event, data) {
 			controller.pitch = -parseInt(data.instance.frontPosition.y);
 			controller.roll = parseInt(data.instance.frontPosition.x);
-			sendData();
+			// sendData();
 		});
 		rightStick.on("end", function (event, data) {
 			controller.pitch = 0;
 			controller.roll = 0;
-			sendData();
+			// sendData();
 		});
 
 		var ws;
 
 		function getNippleSize() {
 			return $(window).innerWidth() * 0.2;
+			// return 125;
 		}
 		var wsConnected = false;
+
 		function WebSocketTest() {
+			var interval;
+			var received_msg = null;
+
 			if(typeof $(".btn-connect").attr("disabled") !== 'undefined'){
 				myConsole("Plz wait..");
 				return;
@@ -190,25 +202,50 @@
 				}
 
 				ws.onopen = function () {
-					// Web Socket is connected, send data using send()
-					myConsole("Connected!!");
+					
+					myConsole("Connected");
+					
 					wsConnected = true;
 					//send data every 0.5s
-					setInterval(function () {
+					interval = setInterval(function () {
 						sendData();
-					}, 500);
+					}, 300);
 				};
 
 				ws.onmessage = function (evt) {
-					var received_msg = evt.data;
-					myConsole("Message received : " + received_msg);
+					msg = evt.data;
+
+					switch(msg.charAt(0)){
+						case 'B':
+							$("#battery-value").html(msg.replace('B','Battery: ')+"v");
+							break;
+						case 'W':
+							myConsole("Watchdog reset");
+							break;
+						default:
+							// myConsole("Message received : " + msg);
+					}
 				};
 
 				ws.onclose = function () {
 					close();
 				};
 
+				function doHandshake(){
+					received_msg = null;
+					//Start handshaking
+					ws.send('HS');
+
+					//Send joystick range
+					var size = parseInt(getNippleSize() / 2);
+					ws.send(`S${size}`);
+
+					//Complete handshaking
+					ws.send('OK');
+				}
+
 				function close(){
+					clearInterval(interval);
 					// websocket is closed.
 					if (!wsConnected) {
 						myConsole("Connection failed.");
@@ -226,36 +263,31 @@
 			}
 		}
 
-		function getSign(val) {
-			return val < 0 ? "-" : "+";
-		}
-
-		function formatNum(num) {
-			var sign = getSign(num);
-			var prefix = Math.abs(num) < 15 ? "0" : "";
-			num = Math.abs(num).toString(16);
-
-			return sign + prefix + num;
-		}
-
 		var dataIsBeingSent = false;
 		function sendData() {
 			if (dataIsBeingSent) {
 				return;
 			}
 			dataIsBeingSent = true;
-			var throttle = controller.throttle;
-			var yaw = controller.yaw;
-			var pitch = controller.pitch;
-			var roll = controller.roll;
 
-			var string = `${formatNum(throttle)} ${formatNum(yaw)} ${formatNum(pitch)} ${formatNum(roll)}`;
-			// myConsole(string);
+			// printJoystickValues(throttle,yaw,pitch,roll);
+			var string = getMappedOutput(controller);
 			if (typeof ws !== "undefined" && wsConnected)
 				ws.send(string);
 			dataIsBeingSent = false;
 		}
 
+		function getMappedOutput(controller){
+			var size     = parseInt(getNippleSize()/2);
+			var rxSize	 = 250;
+
+			var throttle = parseInt(mapNumber(controller.throttle,-size,size,-rxSize,rxSize));
+			var yaw      = parseInt(mapNumber(controller.yaw,-size,size,-rxSize,rxSize));
+			var pitch    = parseInt(mapNumber(controller.pitch,-size,size,-rxSize,rxSize));
+			var roll     = parseInt(mapNumber(controller.roll,-size,size,-rxSize,rxSize));
+
+			return `T${throttle}Y${yaw}P${pitch}R${roll}`;
+		}
 
 		function myConsole(str){
 			$("#console").append(`$ ${str}<br>`);
@@ -264,6 +296,10 @@
 			//Scroll to bottom of the element
 			var elem = document.getElementById('console');
 			elem.scrollTop = elem.scrollHeight;
+		}
+
+		function mapNumber(num, in_min, in_max, out_min, out_max) {
+			return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 		}
 	</script>
 
