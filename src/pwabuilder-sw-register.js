@@ -1,7 +1,9 @@
 module.exports = (function() {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/js/pwabuilder-sw.js").then(function() {
-      console.log("Service Worker Registered");
-    });
+    navigator.serviceWorker
+      .register("/pwabuilder-sw.js", { scope: "/" })
+      .then(function() {
+        console.log("Service Worker Registered");
+      });
   }
 })();

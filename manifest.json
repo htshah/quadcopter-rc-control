@@ -3,7 +3,7 @@
   "lang": "de",
   "name": "DroneTx",
   "scope": "/",
-  "start_url": "https://dronetx.netlify.com/",
+  "start_url": "/",
   "short_name": "DroneTx",
   "theme_color": "transparent",
   "description": "Wifi based drone controller",
