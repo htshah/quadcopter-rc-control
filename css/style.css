@@ -1,0 +1,147 @@
+* {
+  font-family: "Proxima Nova Regular";
+}
+
+body {
+  margin: 0;
+  background: rgb(34, 26, 101);
+  background: -moz-linear-gradient(
+    left,
+    rgba(34, 26, 101, 1) 1%,
+    rgba(158, 90, 144, 1) 99%
+  );
+  background: -webkit-linear-gradient(
+    left,
+    rgba(34, 26, 101, 1) 1%,
+    rgba(158, 90, 144, 1) 99%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(34, 26, 101, 1) 1%,
+    rgba(158, 90, 144, 1) 99%
+  );
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#221a65', endColorstr='#9e5a90', GradientType=1);
+}
+
+#controller {
+  position: relative;
+  height: 100vh;
+}
+#controller-overlay {
+  display: none;
+}
+
+#controller-overlay > .content {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 20px;
+  padding: 0 30px;
+}
+#controller-overlay > .content img {
+  width: 15rem;
+  display: block;
+  text-align: center;
+  margin: 0 auto 20px;
+}
+@media screen and (orientation: portrait) {
+  #controller {
+    display: none;
+  }
+  #controller-overlay {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    z-index: 999;
+  }
+  body {
+    overflow: hidden;
+  }
+}
+
+.container {
+  display: block;
+  width: 100%;
+}
+
+.joystick * {
+  opacity: 1 !important;
+}
+
+.joystick .back {
+  background: #fff !important;
+}
+.joystick .front {
+  background: #34375c !important;
+}
+
+.joystick .back::before {
+  content: " ";
+  display: inline-block;
+  background: #fff;
+  border-radius: 50%;
+  width: 147%;
+  height: 147%;
+  top: -24%;
+  left: -24%;
+  position: absolute;
+  z-index: -1;
+}
+
+.row {
+  display: block;
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px 0px;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  background: #fff;
+  border-radius: 18px;
+  color: #062663;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 6px 21px;
+  font-weight: 600;
+  margin: 0 5px;
+}
+
+.btn-floating {
+  padding: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+#console {
+  color: #fff;
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+#battery-value {
+  color: white;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+tr:not(:first-child) td:last-child {
+  width: 9px;
+  display: block;
+}

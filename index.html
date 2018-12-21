@@ -6,303 +6,99 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no,
 	shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-	<link rel="stylesheet" href="ui/css/ProximaNova.css" />
-	<title>RC Drone</title>
-
-	<style>
-		/* @import 'ui/css/evothings-app.css'; */
-
-		* {
-			font-family: 'Proxima Nova Regular';
-		}
-
-		body {
-			margin: 0;
-			background: rgb(34, 26, 101);
-			background: -moz-linear-gradient(left, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
-			background: -webkit-linear-gradient(left, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
-			background: linear-gradient(to right, rgba(34, 26, 101, 1) 1%, rgba(158, 90, 144, 1) 99%);
-			filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#221a65', endColorstr='#9e5a90', GradientType=1);
-		}
-
-		.container {
-			display: block;
-			width: 100%;
-		}
-
-		.joystick * {
-			opacity: 1 !important;
-		}
-
-		.joystick .back {
-			background: #fff !important;
-		}
-		.joystick .front {
-			background: #34375c !important;
-		}
-
-		.joystick .back::before {
-			content      : ' ';
-			display      : inline-block;
-			background   : #fff;
-			border-radius: 50%;
-			width        : 147%;
-			height       : 147%;
-			top          : -24%;
-			left         : -24%;
-			position     : absolute;
-			z-index      : -1;
-		}
-
-		.row {
-			display: block;
-			position: relative;
-			width: 100%;
-			margin-bottom: 20px;
-			padding: 20px 0px;
-		}
-
-		.center-align {
-			text-align: center;
-		}
-
-		.btn {
-			display: inline-block;
-			background: #fff;
-			border-radius: 18px;
-			color: #062663;
-			text-decoration: none;
-			font-size: 20px;
-			padding: 6px 21px;
-			font-weight: 600;
-			margin: 0 5px;
-		}
-
-		.btn-floating {
-			padding: 10px;
-			width: 24px;
-			height: 24px;
-			border-radius: 50%;
-
-		}
-
-		#console{
-			color: #fff;
-			width: 150px;
-			height: 200px;
-    		margin: 0 auto;
-			overflow: auto;
-		}
-
-		#battery-value{
-			color:white;
-		}
-	</style>
-
-	<script>
-		// Redirect console.log to Evothings Workbench.
-		if (window.hyper && window.hyper.log) { console.log = hyper.log }
-	</script>
-
+	
+	<link rel="manifest" href="manifest.json"></link>
+	<title>DroneTx</title>
 </head>
 
 <body>
-	<div class="row center-align">
-		<a class="btn btn-floating btn-back" href="javascript:void(0)" onclick="history.back();">
-			<img src="ui/images/icons/back.svg" alt="Back">
-		</a>
-		<a class="btn btn-floating btn-connect" href="javascript:void(0)" onclick="WebSocketTest();">
-			<img src="ui/images/icons/play.svg" alt="Back">
-		</a>
+	<div id="controller-overlay">
+		<div class="content">
+			<img src="/images/icons/orientation-icon.svg" alt="Potrait to Landscape" srcset="">
+			Please rotate your phone at 90deg.
+		</div>
 	</div>
-	<div class="container">
-		<div class="joystick" id="left-stick"></div>
-		<div class="joystick" id="right-stick"></div>
+	<div id="controller">
+		<div class="row center-align">
+			<a class="btn btn-floating btn-back" href="javascript:void(0)" onclick="location.reload();">
+				<img src="/images/icons/refresh.svg" alt="Reload">
+			</a>
+			<a id="connect-btn" class="btn btn-floating btn-connect" href="javascript:void(0)">
+				<img class="play-btn" src="/images/icons/play.svg" alt="Connect">
+				<img class="pause-btn" src="/images/icons/pause.svg" alt="Disconnect" style="display:none;">
+			</a>
+		</div>
+		<!-- <div class="row center-align" style="background-color: #fff;">
+			<table>
+				<tr>
+					<td colspan="3">
+						<select id="axis">
+							<option value="Y" selected>Yaw</option>
+							<option value="P">Pitch</option>
+							<option value="R">Roll</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>P</td>
+					<td><input type="range" id="kp" min="0" max="10" step="0.02" value="0"/></td>
+					<td id="kp-val">0</td>
+				</tr>
+				<tr>
+					<td>I</td>
+					<td><input type="range" id="ki" min="0" max="10" step="0.02" value="0"/></td>
+					<td id="ki-val">0</td>
+				</tr>
+				<tr>
+					<td>D</td>
+					<td><input type="range" id="kd" min="0" max="10" step="0.02" value="0"/></td>
+					<td id="kd-val">0</td>
+				</tr>
+			</table>
+		</div> -->
+		<div class="container">
+			<div class="joystick" id="left-stick"></div>
+			<div class="joystick" id="right-stick"></div>
+		</div>
+		<div class="container" style=" position: absolute; bottom: 0px; ">
+			<h4 id="battery-value"></h4>
+		</div>
+	
+		<div id="console"></div>
+		<div id="status">DISCONNECTED!</div>
 	</div>
-	<div class="container">
-		<h4 id="battery-value"></h4>
-	</div>
 
-	<div id="console"></div>
+	<script src="/dist/bundle.js"></script>
 
-	<script src="libs/jquery/jquery.js"></script>
-
-	<!-- Joystick library -->
-	<script src="libs/nipplejs/nipplejs.min.js"></script>
-	<script type="text/javascript">
-		var controller = { throttle: -parseInt(getNippleSize()/2), yaw: 0, roll: 0, pitch: 0 };
-		var leftOptions = {
-			zone: document.getElementById('left-stick'),
-			mode: "static",
-			position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, left: '20%' },
-			size: getNippleSize(),
-			resetY: false,
-			shape: 'square'
-		};
-		var leftStick = nipplejs.create(leftOptions);
-
-		var rightOptions = {
-			zone: document.getElementById('right-stick'),
-			mode: "static",
-			position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, right: '20%' },
-			size: getNippleSize(),
-			shape: 'square'
-		};
-		var rightStick = nipplejs.create(rightOptions);
-
-		leftStick.on("move", function (event, data) {
-			controller.throttle = -parseInt(data.instance.frontPosition.y);
-			controller.yaw = parseInt(data.instance.frontPosition.x);
-			// sendData();
-		});
-		leftStick.on("end", function (event, data) {
-			controller.yaw = 0;
-			// sendData();
-		});
-		rightStick.on("move", function (event, data) {
-			controller.pitch = -parseInt(data.instance.frontPosition.y);
-			controller.roll = parseInt(data.instance.frontPosition.x);
-			// sendData();
-		});
-		rightStick.on("end", function (event, data) {
-			controller.pitch = 0;
-			controller.roll = 0;
-			// sendData();
+	<!-- PID controlls -->
+	<!-- <script>
+		var axis='Y',kp=0,ki=0,kd=0;
+		$("#axis").change(function(){
+			axis = $(this).val();
+			$("#kp,#ki,#kd").val(0);
+			$("#kp-val,#ki-val,#kd-val").html(0);
 		});
 
-		var ws;
+		$("#kp").on('mousedown mousemove keydown',function(){
+			kp = $(this).val();
+			$("#kp-val").html($(this).val());
+		});
+		$("#ki").on('mousedown mousemove keydown',function(){
+			ki = $(this).val();
+			$("#ki-val").html($(this).val());
+		});
+		$("#kd").on('mousedown mousemove keydown',function(){
+			kd = $(this).val();
+			$("#kd-val").html($(this).val());
+		});
 
-		function getNippleSize() {
-			return $(window).innerWidth() * 0.2;
-			// return 125;
-		}
-		var wsConnected = false;
-
-		function WebSocketTest() {
-			var interval;
-			var received_msg = null;
-
-			if(typeof $(".btn-connect").attr("disabled") !== 'undefined'){
-				myConsole("Plz wait..");
-				return;
-			}
-			if(wsConnected){
-				myConsole("Already connected..");
-				return;
-			}
-			if ("WebSocket" in window) {
-				$(".btn-connect").attr("disabled","disabled");
-				myConsole("Connecting..");
-				// Let us open a web socket
-				try {
-					
-					ws = new WebSocket("ws://192.168.4.1");
-				} catch (error) {
-					close();
-				}
-
-				ws.onopen = function () {
-					
-					myConsole("Connected");
-					
-					wsConnected = true;
-					//send data every 0.5s
-					interval = setInterval(function () {
-						sendData();
-					}, 300);
-				};
-
-				ws.onmessage = function (evt) {
-					msg = evt.data;
-
-					switch(msg.charAt(0)){
-						case 'B':
-							$("#battery-value").html(msg.replace('B','Battery: ')+"v");
-							break;
-						case 'W':
-							myConsole("Watchdog reset");
-							break;
-						default:
-							// myConsole("Message received : " + msg);
-					}
-				};
-
-				ws.onclose = function () {
-					close();
-				};
-
-				function doHandshake(){
-					received_msg = null;
-					//Start handshaking
-					ws.send('HS');
-
-					//Send joystick range
-					var size = parseInt(getNippleSize() / 2);
-					ws.send(`S${size}`);
-
-					//Complete handshaking
-					ws.send('OK');
-				}
-
-				function close(){
-					clearInterval(interval);
-					// websocket is closed.
-					if (!wsConnected) {
-						myConsole("Connection failed.");
-					} else {
-						myConsole("Connection closed.");
-					}
-					$(".btn-connect").removeAttr("disabled");
-					wsConnected = false;
-				}
-			}
-
-			else {
-				// The browser doesn't support WebSocket
-				myConsole("WebSocket NOT supported by your Browser!");
-			}
-		}
-
-		var dataIsBeingSent = false;
-		function sendData() {
-			if (dataIsBeingSent) {
-				return;
-			}
-			dataIsBeingSent = true;
-
-			// printJoystickValues(throttle,yaw,pitch,roll);
-			var string = getMappedOutput(controller);
+		/*setInterval(function(){
+			axis = parseInt(axis)>>7 & 1? $("#axis").val():axis;
+			var string = `K${axis} ${kp} ${ki} ${kd}`;
 			if (typeof ws !== "undefined" && wsConnected)
 				ws.send(string);
-			dataIsBeingSent = false;
-		}
-
-		function getMappedOutput(controller){
-			var size     = parseInt(getNippleSize()/2);
-			var rxSize	 = 250;
-
-			var throttle = parseInt(mapNumber(controller.throttle,-size,size,-rxSize,rxSize));
-			var yaw      = parseInt(mapNumber(controller.yaw,-size,size,-rxSize,rxSize));
-			var pitch    = parseInt(mapNumber(controller.pitch,-size,size,-rxSize,rxSize));
-			var roll     = parseInt(mapNumber(controller.roll,-size,size,-rxSize,rxSize));
-
-			return `T${throttle}Y${yaw}P${pitch}R${roll}`;
-		}
-
-		function myConsole(str){
-			$("#console").append(`$ ${str}<br>`);
-			console.log(str);
-
-			//Scroll to bottom of the element
-			var elem = document.getElementById('console');
-			elem.scrollTop = elem.scrollHeight;
-		}
-
-		function mapNumber(num, in_min, in_max, out_min, out_max) {
-			return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-		}
-	</script>
-
+		},1000);*/
+	</script> -->
 </body>
 
 </html>

@@ -1,0 +1,112 @@
+{
+  "dir": "ltr",
+  "lang": "de",
+  "name": "DroneTx",
+  "scope": "/",
+  "start_url": "https://dronetx.netlify.com/",
+  "short_name": "DroneTx",
+  "theme_color": "transparent",
+  "description": "Wifi based drone controller",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "transparent",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/images/5c8e7c3f-e722-27c6-87a2-a3489096bf06.webPlatform.png",
+      "sizes": "44x44",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/98667941-3ddb-60ca-3f05-d9bce60d816f.webPlatform.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/windows10/SplashScreen.scale-200.png.png",
+      "sizes": "1240x600",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/44c23f49-4574-685f-01c9-203b6296ba29.webPlatform.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/769ef55e-b517-1860-9b68-2a4488226222.webPlatform.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/a75129ea-3a7d-12b2-3173-6a0742af9df4.webPlatform.png",
+      "sizes": "88x88",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/20785aaf-9621-a22e-018a-34a218f70cf3.webPlatform.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/53e7fb7f-715b-7e57-2288-ca6558935b71.webPlatform.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/bbb42378-5c3f-821d-32ac-256ad0098bb6.webPlatform.png",
+      "sizes": "620x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/7db10c92-2d4b-f9f1-124a-8873ea6ee29d.webPlatform.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/beeed292-b9ef-f465-b281-1751ea81f081.webPlatform.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/70a11200-406d-46c0-69dc-05b5bde4fd47.webPlatform.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/4ee73e18-5056-6ee9-98b9-2534978b08e1.webPlatform.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/4dabd9ec-87ce-819b-7c86-cf2002c43d7a.webPlatform.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/ios/ios-appicon-1024-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/a55aeb5b-7cde-8334-2f9a-bed6eb0d63b4.webPlatform.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/9ba15f7e-7df1-28b6-0822-dac355074895.webPlatform.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/e9d19367-385b-1326-d21e-3a70e9992c42.webPlatform.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/bc04bc13-ab48-9888-1f50-aa9b124b3c1e.webPlatform.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    }
+  ]
+}
