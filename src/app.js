@@ -1,5 +1,8 @@
 require("./pwabuilder-sw-register.js");
+require("./pid.js");
 
+require("flexboxgrid");
+require("../css/flexbox-fixes.css");
 require("../css/style.css");
 require("../css/ProximaNova.css");
 
@@ -10,7 +13,7 @@ var controller = new Controller();
 
 controller.init();
 
-var dataIsBeingSent = false;
+/* var dataIsBeingSent = false;
 function sendData() {
   if (dataIsBeingSent) {
     return;
@@ -21,4 +24,4 @@ function sendData() {
   console.log(string);
   if (typeof ws !== "undefined" && wsConnected) ws.send(string);
   dataIsBeingSent = false;
-}
+} */

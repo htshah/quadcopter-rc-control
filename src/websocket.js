@@ -18,9 +18,9 @@ module.exports = function(options) {
       var str = [
         "Websocket not supported",
         "Connection failed",
-        "DISCONNECTED!",
+        "Disconnected",
         "Connecting to drone",
-        "CONNECTED"
+        "Connected"
       ];
       console.log(str[this._val]);
       options.statusEle.html(str[this._val]);

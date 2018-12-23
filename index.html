@@ -10,6 +10,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/images/a55aeb5b-7cde-8334-2f9a-bed6eb0d63b4.webPlatform.png">
 	
 	<link rel="manifest" href="manifest.json"></link>
+
 	<title>DroneTx</title>
 </head>
 
@@ -20,54 +21,101 @@
 			Please rotate your phone at 90deg.
 		</div>
 	</div>
+
+
 	<div id="controller">
-		<div class="row center-align">
-			<a class="btn btn-floating btn-back" href="javascript:void(0)" onclick="location.reload();">
-				<img src="/images/icons/refresh.svg" alt="Reload">
-			</a>
-			<a id="connect-btn" class="btn btn-floating btn-connect" href="javascript:void(0)">
-				<img class="play-btn" src="/images/icons/play.svg" alt="Connect">
-				<img class="pause-btn" src="/images/icons/pause.svg" alt="Disconnect" style="display:none;">
-			</a>
+		<div class="row between-xs">
+			<div class="col-xs-4">
+				<div class="box console-container">
+					<h5 class="title">Console</h5>
+					<div id="console">
+						> Dummy<br/>
+						> Dummy<br/>
+						> Dummy<br/>
+						> Dummy<br/>
+						> Dummy<br/>
+						> Dummy<br/>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="row">
+							<div id="status" class="box col-xs" style="margin-bottom: 5px;">Disconnected</div>
+						</div>
+						<div class="row between-xs">
+							<div id="battery-cell-1" class="box col-xs">0.00v</div>
+							<div id="battery-cell-2" class="box col-xs">0.00v</div>
+							<div id="battery-cell-3" class="box col-xs">0.00v</div>
+						</div>
+						<div class="row center-xs">
+							<div class="col-sm">
+								<button type="button" class="btn btn-floating btn-back" onclick="location.reload();">
+									<img src="/images/icons/refresh.svg" alt="Reload">
+								</button>
+							</div>
+							<div class="col-sm">
+								<button type="button" id="connect-btn" class="btn btn-floating btn-connect">
+									<img class="play-btn" src="/images/icons/play.svg" alt="Connect">
+									<img class="pause-btn" src="/images/icons/pause.svg" alt="Disconnect" style="display:none;">
+								</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div class="col-xs-4">
+				<div class="box">
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>P</th>
+								<th>I</th>
+								<th>D</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>Yaw</th>
+								<td class="active">0.00</td>
+								<td>0.00</td>
+								<td>0.00</td>
+							</tr>
+							<tr>
+								<th>Pitch</th>
+								<td>0.00</td>
+								<td>0.00</td>
+								<td>0.00</td>
+							</tr>
+							<tr>
+								<th>Roll</th>
+								<td>0.00</td>
+								<td>0.00</td>
+								<td>0.00</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		<!-- <div class="row center-align" style="background-color: #fff;">
-			<table>
-				<tr>
-					<td colspan="3">
-						<select id="axis">
-							<option value="Y" selected>Yaw</option>
-							<option value="P">Pitch</option>
-							<option value="R">Roll</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>P</td>
-					<td><input type="range" id="kp" min="0" max="10" step="0.02" value="0"/></td>
-					<td id="kp-val">0</td>
-				</tr>
-				<tr>
-					<td>I</td>
-					<td><input type="range" id="ki" min="0" max="10" step="0.02" value="0"/></td>
-					<td id="ki-val">0</td>
-				</tr>
-				<tr>
-					<td>D</td>
-					<td><input type="range" id="kd" min="0" max="10" step="0.02" value="0"/></td>
-					<td id="kd-val">0</td>
-				</tr>
-			</table>
-		</div> -->
-		<div class="container">
-			<div class="joystick" id="left-stick"></div>
-			<div class="joystick" id="right-stick"></div>
+		<div class="row between-xs">
+			<div class="col-xs">
+				<div id="left-stick" class="joystick"></div>
+			</div>
+			<div class="col-xs-3">
+				<div class="button-group">
+					<button>-</button>
+					<button>+</button>
+				</div>
+			</div>
+			<div class="col-xs">
+				<div id="right-stick" class="joystick"></div>
+			</div>
 		</div>
-		<div class="container" style=" position: absolute; bottom: 0px; ">
-			<h4 id="battery-value"></h4>
-		</div>
-	
-		<div id="console"></div>
-		<div id="status">DISCONNECTED!</div>
 	</div>
 
 	<script src="/dist/bundle.js"></script>
