@@ -1,6 +1,8 @@
 require("./pwabuilder-sw-register.js");
 require("./pid.js");
 
+window.$ = require("jquery");
+
 require("flexboxgrid");
 require("../css/flexbox-fixes.css");
 require("../css/style.css");

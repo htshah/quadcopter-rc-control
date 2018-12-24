@@ -40,6 +40,7 @@ module.exports = function(options) {
 
   function init() {
     if (state.val == states.connected) return; //already connected
+    console.log("opening");
 
     if (!("WebSocket" in window)) {
       state.val = states.nosupport;
@@ -61,6 +62,7 @@ module.exports = function(options) {
     if (ws == null) return false;
 
     ws.onopen = function() {
+      console.log("opened");
       state.val = states.connected;
 
       options.connect();
@@ -87,8 +89,10 @@ module.exports = function(options) {
     }; */
 
     ws.onclose = function(e) {
+      console.log("closing");
       _close(e);
       options.close();
+      console.log("closed");
     };
   }
 

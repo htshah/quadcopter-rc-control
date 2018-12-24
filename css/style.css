@@ -12,6 +12,7 @@ body {
 }
 
 body {
+  cursor: pointer; /* A fix for mobile safari browsers which does not recognize click event sometimes */
   position: relative;
   width: calc(100vw - 16px);
   height: 100vh;

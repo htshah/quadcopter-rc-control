@@ -42,7 +42,10 @@ module.exports = function(options) {
   }
 
   function _handleConnection() {
-    if (options.connectBtnEle.is("[disabled]")) return;
+    if (options.connectBtnEle[0].hasAttribute("disabled")) {
+      console.log("disabled");
+      return false;
+    }
 
     options.connectBtnEle.attr("disabled", "disabled");
     if (!websocket.isConnected()) {
@@ -50,6 +53,7 @@ module.exports = function(options) {
     } else {
       websocket.close();
     }
+    return true;
   }
 
   function _initJoystick() {
