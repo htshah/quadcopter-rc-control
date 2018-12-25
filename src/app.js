@@ -8,12 +8,17 @@ require("../css/flexbox-fixes.css");
 require("../css/style.css");
 require("../css/ProximaNova.css");
 
+var touchHandler = require("./touchhandler.js");
 var Controller = require("./controller.js");
 var WebSocket = require("./websocket.js");
 
 var controller = new Controller();
 
 controller.init();
+
+$(document).ready(function() {
+  touchHandler($("#reload-btn"), () => location.reload());
+});
 
 /* var dataIsBeingSent = false;
 function sendData() {

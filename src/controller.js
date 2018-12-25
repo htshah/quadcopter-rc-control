@@ -1,3 +1,4 @@
+var touchHandler = require("./touchhandler.js");
 var Joystick = require("./joysticks.js");
 var WebSocket = require("./websocket.js");
 var $ = require("jquery");
@@ -36,7 +37,7 @@ module.exports = function(options) {
   var transmissionInterval = null;
 
   function init() {
-    options.connectBtnEle.on("click", _handleConnection);
+    touchHandler(options.connectBtnEle[0], _handleConnection);
     window.addEventListener("orientationchange", _initJoystick);
     _initJoystick();
   }
