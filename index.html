@@ -2,27 +2,53 @@
 <html>
 
 <head>
-
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<link rel="icon" type="image/png" sizes="36x36" href="/images/4dabd9ec-87ce-819b-7c86-cf2002c43d7a.webPlatform.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/images/a55aeb5b-7cde-8334-2f9a-bed6eb0d63b4.webPlatform.png">
 	
 	<link rel="manifest" href="manifest.json"></link>
-
+	
 	<title>DroneTx</title>
 </head>
 
-<body>
+<body class="light">
 	<div id="controller-overlay">
 		<div class="content">
-			<img src="/images/icons/orientation-icon.svg" alt="Potrait to Landscape" srcset="">
+			<img src="/images/icons/orientation-icon.svg" alt="Potrait to Landscape">
 			Please rotate your phone at 90deg.
 		</div>
 	</div>
-
-
+	
+	
 	<div id="controller">
+		<nav>
+			<div class="row between-xs middle-xs">
+				<div class="col-xs">
+					<div class="row no-padding">
+						<div class="col-xs-1">
+							<div class="battery-indicator">
+								<div class="battery-level" style="width:0%"></div>
+							</div>
+						</div>
+						<h5 id="status" class="col-xs-5 no-margin">Disconnected</h5>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="row middle-xs end-xs">
+						<small class="col-xs">V1.4</small>
+						<div class="col-xs-3">
+							<img class="icon" src="/images/icons/info.svg" alt="Info">
+						</div>
+						<div class="col-xs-3">
+							<img class="icon" src="/images/icons/settings.svg" alt="Settings">
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		
 		<div class="row between-xs">
 			<div class="col-xs-4">
 				<div class="box console-container">
@@ -40,9 +66,6 @@
 			<div class="col-xs-4">
 				<div class="row">
 					<div class="col-xs-12">
-						<div class="row">
-							<div id="status" class="box col-xs" style="margin-bottom: 5px;">Disconnected</div>
-						</div>
 						<div class="row between-xs">
 							<div id="battery-cell-1" class="box col-xs">0.00v</div>
 							<div id="battery-cell-2" class="box col-xs">0.00v</div>
@@ -116,9 +139,9 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<script src="/dist/bundle.js"></script>
-
+	
 	<!-- PID controlls -->
 	<!-- <script>
 		var axis='Y',kp=0,ki=0,kd=0;
@@ -127,7 +150,7 @@
 			$("#kp,#ki,#kd").val(0);
 			$("#kp-val,#ki-val,#kd-val").html(0);
 		});
-
+		
 		$("#kp").on('mousedown mousemove keydown',function(){
 			kp = $(this).val();
 			$("#kp-val").html($(this).val());
@@ -140,12 +163,12 @@
 			kd = $(this).val();
 			$("#kd-val").html($(this).val());
 		});
-
+		
 		/*setInterval(function(){
 			axis = parseInt(axis)>>7 & 1? $("#axis").val():axis;
 			var string = `K${axis} ${kp} ${ki} ${kd}`;
 			if (typeof ws !== "undefined" && wsConnected)
-				ws.send(string);
+			ws.send(string);
 		},1000);*/
 	</script> -->
 </body>

@@ -73,7 +73,12 @@ module.exports = function(options) {
       msg = evt.data.split("~").join("");
       switch (msg.charAt(0)) {
         case "B":
-          $("#battery-value").html(msg.replace("B", "Battery: ") + "v");
+          let battery = parseFloat(msg.replace("B", ""));
+          $(".battery-indicator .battery-level").css(
+            "width",
+            `${(battery * 100) / 12.6}%`
+          );
+          $("#battery-cell-1").html(msg.replace("B", "") + "v");
           break;
         case "W":
           print("Watchdog reset");

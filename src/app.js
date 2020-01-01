@@ -4,6 +4,7 @@ require("./pid.js");
 window.$ = require("jquery");
 
 require("flexboxgrid");
+require("../css/battery-indicator.css");
 require("../css/flexbox-fixes.css");
 require("../css/style.css");
 require("../css/ProximaNova.css");

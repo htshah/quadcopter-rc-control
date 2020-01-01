@@ -1,0 +1,35 @@
+.battery-indicator {
+  --battery-color: var(--color);
+  --battery-danger-color: red;
+}
+
+.battery-indicator {
+  display: block;
+  position: relative;
+  padding: 1px;
+  margin: 0 4px;
+  border: 2px solid var(--battery-color);
+  width: 15px;
+  height: 7px;
+  border-radius: 3px;
+  float: left;
+}
+
+.battery-indicator::before {
+  position: absolute;
+  left: -4px;
+  top: calc(50% - 3px);
+  content: "";
+  width: 2px;
+  height: 6px;
+  background: var(--battery-color);
+}
+
+.battery-indicator .battery-level {
+  position: relative;
+  left: 0;
+  top: 0;
+  background: var(--battery-color);
+  height: 100%;
+  float: right;
+}

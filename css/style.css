@@ -13,18 +13,40 @@
 .no-margin-bottom {
   margin-bottom: 0 !important;
 }
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
 
 html,
 body {
   position: fixed;
 }
 
-body {
-  position: relative;
-  width: calc(100vw - 16px);
-  height: 100vh;
-  overflow: hidden;
-  background: rgb(34, 26, 101);
+body.light {
+  --background: #fff;
+  --background2: #f2f2f2;
+  --color: #000;
+  --primary-color: #1e88e5;
+  --error-color: #f44336;
+  --primary-background: #bbdefb;
+  --error-background: #ffb3ba;
+  --disabled-color: #737373;
+  --disabled-primary-color: #7a9acb;
+  --grid-color: #d3d3d3;
+  --grid-color2: #262626;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  color: var(--color);
+}
+
+body.gradient {
+  /* background: rgb(34, 26, 101);
   background: -moz-linear-gradient(
     left,
     rgba(34, 26, 101, 1) 1%,
@@ -40,7 +62,16 @@ body {
     rgba(34, 26, 101, 1) 1%,
     rgba(158, 90, 144, 1) 99%
   );
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#221a65', endColorstr='#9e5a90', GradientType=1);
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#221a65', endColorstr='#9e5a90', GradientType=1); */
+}
+
+body {
+  position: relative;
+  background: var(--background, #fff);
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #controller {
@@ -80,21 +111,32 @@ body {
   }
 }
 
+.icon {
+  width: 20px;
+  height: 20px;
+}
+nav {
+  background: var(--background2);
+}
+nav .icon {
+  float: right;
+}
+
 .joystick * {
   opacity: 1 !important;
 }
 
 .joystick .back {
-  background: #fff !important;
+  background: transparent !important;
 }
 .joystick .front {
-  background: #34375c !important;
+  background: rgba(0, 0, 0, 0.3) !important;
 }
 
 .joystick .back::before {
   content: " ";
   display: inline-block;
-  background: #fff;
+  background: var(--primary-color);
   border-radius: 50%;
   width: 147%;
   height: 147%;
@@ -150,7 +192,7 @@ body {
   margin: 5px 0;
 }
 #console {
-  color: #424242;
+  color: var(--color);
   margin: 0 auto;
   width: 100%;
   text-align: left;
@@ -174,13 +216,8 @@ th {
 }
 td.active {
   background: #9e5a90;
-  color: #fff;
+  color: var(--color);
   transition: all 0.2s;
-}
-
-#status {
-  font-weight: 600;
-  letter-spacing: 0.8px;
 }
 
 .button-group {

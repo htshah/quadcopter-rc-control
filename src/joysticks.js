@@ -12,7 +12,7 @@ module.exports = function() {
   var leftOptions = {
     zone: document.getElementById("left-stick"),
     mode: "static",
-    position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, left: "20%" },
+    position: { bottom: `calc(${getNippleSize()}px)`, left: "20%" },
     size: getNippleSize(),
     resetY: false,
     shape: "square"
@@ -21,7 +21,7 @@ module.exports = function() {
   var rightOptions = {
     zone: document.getElementById("right-stick"),
     mode: "static",
-    position: { bottom: `calc(${getNippleSize()}px + 0.3rem)`, right: "20%" },
+    position: { bottom: `calc(${getNippleSize()}px)`, right: "20%" },
     size: getNippleSize(),
     shape: "square"
   };
