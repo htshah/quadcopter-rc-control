@@ -20,7 +20,7 @@
   "homepage": "https://github.com/htshah/quadcopter-rc-control#readme",
   "dependencies": {
     "flexboxgrid": "^6.3.1",
-    "jquery": "^3.3.1"
+    "jquery": "^3.5.0"
   },
   "devDependencies": {
     "css-loader": "^2.0.2",
